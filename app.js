@@ -11,7 +11,11 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // API routes TODO
-app.use("/matches", require("./matches/match.controller"));
+app.use("/practices", require("./practices/practice.controller"));
+app.use("/users", require("./users/user.controller"));
+app.use("/claims", require("./claims/claim.controller"));
+app.use("/articles", require("./articles/article.controller"));
+app.use("/ratings", require("./ratings/rating.controller"));
 
 app.get("/logout", authorize(), logout);
 // app.get('/login', login);

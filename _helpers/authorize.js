@@ -16,18 +16,19 @@ function authorize(roles = []) {
 
   return [
     // authenticate JWT token and attach user to request object (req.user)
-
-    expressJwt({
-      secret,
-      algorithms: ["HS256"],
-      isRevoked: expressBlacklist.isRevoked,
-    }).unless({
-      path: [
-        // public routes that don't require authentication
-        "/users/authenticate",
-        "/users/register",
-      ],
-    }),
+    expressJwt
+      .expressjwt({
+        secret,
+        algorithms: ["HS256"],
+        isRevoked: expressBlacklist.isRevoked,
+      })
+      .unless({
+        path: [
+          // public routes that don't require authentication
+          "/users/authenticate",
+          "/users/register",
+        ],
+      }),
 
     // authorize based on user role
     (req, res, next) => {

@@ -21,5 +21,9 @@ mongoose.Promise = global.Promise;
 
 module.exports = {
   // TODO
-  matchList: require("../matches/match.model"),
+  Practice: require("../practices/practice.model"),
+  User: require("../users/user.model"),
+  Claim: require("../claims/claim.model"),
+  Article: require("../articles/article.model"),
+  Rating: require("../ratings/rating.model"),
 };
