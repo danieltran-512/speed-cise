@@ -1,4 +1,4 @@
-const expressJwt = require("express-jwt");
+const { expressjwt: jwt } = require("express-jwt");
 const expressBlacklist = require("express-jwt-blacklist");
 const { secret } = require("../config.json");
 
@@ -16,23 +16,22 @@ function authorize(roles = []) {
 
   return [
     // authenticate JWT token and attach user to request object (req.user)
-    expressJwt
-      .expressjwt({
-        secret,
-        algorithms: ["HS256"],
-        isRevoked: expressBlacklist.isRevoked,
-      })
-      .unless({
-        path: [
-          // public routes that don't require authentication
-          "/users/authenticate",
-          "/users/register",
-        ],
-      }),
+    jwt({
+      secret,
+      algorithms: ["HS256"],
+      //isRevoked: expressBlacklist.isRevoked,
+    }).unless({
+      path: [
+        // public routes that don't require authentication
+        "/users/authenticate",
+        "/users/register",
+      ],
+    }),
 
     // authorize based on user role
     (req, res, next) => {
       if (roles.length && !roles.includes(req.user.role)) {
+        // how does the req.user.role work?
         // user's role is not authorized
         return res.status(401).json({ message: "Unauthorized" });
       }
@@ -41,6 +40,22 @@ function authorize(roles = []) {
       next();
     },
   ];
+  /*const authHeader = req.headers.authorization;
+
+  if (authHeader) {
+    const token = authHeader.split(" ")[1];
+
+    jwt.verify(token, accessTokenSecret, (err, user) => {
+      if (err) {
+        return res.sendStatus(403);
+      }
+
+      req.user = user;
+      next();
+    });
+  } else {
+    res.sendStatus(401);
+  }*/
 }
 
 function blacklist(req, res) {

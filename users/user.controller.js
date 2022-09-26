@@ -7,7 +7,7 @@ const Role = require("../_helpers/role");
 router.post("/authenticate", authenticate);
 router.post("/register", register);
 router.post("/updateNotificationCount", updateNotificationCount);
-router.get("/", authorize(Role.Admin), getAll);
+router.get("/", authorize(), getAll); // Role.Admin
 router.get("/current", authorize(), getCurrent);
 router.get("/:id", authorize(), getById);
 router.put("/:id", authorize(), update);
