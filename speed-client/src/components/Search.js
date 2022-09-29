@@ -11,7 +11,7 @@ export const Search = () => {
 
     //retrieve list of practice from database
     useEffect(()=>{
-        axios.get('http://localhost:4000/practices')
+        axios.get(`${process.env.REACT_APP_DB_URL}/practices`)
         .then(res => {
             setPracticeList(res.data);
         }
@@ -35,7 +35,7 @@ export const Search = () => {
 
     useEffect(()=>{
         if(!practice) return
-        axios.get(`http://localhost:4000/claims/${practice}`)
+        axios.get(`${process.env.REACT_APP_DB_URL}/claims/${practice}`)
         .then(res => {
             setClaims(res.data);
         }

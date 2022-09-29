@@ -11,7 +11,7 @@ export const SearchResults = () => {
 
     useEffect(()=>{
       //Retrieve the claim details from the database
-      axios.get(`http://localhost:4000/articles/${location.state.claim}`)
+      axios.get(`${process.env.REACT_APP_DB_URL}/articles/${location.state.claim}`)
       .then(res => {
         setArticles(res.data);
       }
@@ -23,7 +23,7 @@ export const SearchResults = () => {
       <div>
         Result Details for {location.state.claimTitle}
         {articles.map((article,index) => (
-          <div key={article._id}>
+          <div key={article.id}>
             <hr></hr>
             <p> {index+1}. {article.title}</p>
             <hr></hr>
