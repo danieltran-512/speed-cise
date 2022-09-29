@@ -4,7 +4,7 @@ const practiceService = require("./practice.service");
 const { authorize } = require("../_helpers/authorize");
 
 // routes
-router.get("/", authorize(), getAll);
+router.get("/", getAll);
 router.post("/addPractice", authorize(), addPractice);
 router.put("/updatePractice", authorize(), updatePractice);
 router.delete("/:id", authorize(), _delete);

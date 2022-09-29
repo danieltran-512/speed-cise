@@ -5,7 +5,9 @@ const articleService = require("./article.service");
 const { authorize } = require("../_helpers/authorize");
 
 // routes
-router.get("/", authorize(), getAll);
+router.get("/", getAll);
+router.get("/:id", getArticlesBasedOnClaims);
+
 router.get(
   "/getArticlesForWorkDistribution",
   authorize(),
@@ -43,6 +45,13 @@ function addArticle(req, res, next) {
 function getAll(req, res, next) {
   articleService
     .getAll()
+    .then((articles) => res.json(articles))
+    .catch((err) => next(err));
+}
+
+function getArticlesBasedOnClaims(req, res, next) {
+  articleService
+    .getArticlesBasedOnClaims(req.params.id)
     .then((articles) => res.json(articles))
     .catch((err) => next(err));
 }

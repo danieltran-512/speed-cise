@@ -8,6 +8,7 @@ const Article = db.Article;
 module.exports = {
   addArticle,
   getAll,
+  getArticlesBasedOnClaims,
   getArticlesForWorkDistribution,
   getArticlesForSubmitter,
   getArticlesForModerator,
@@ -27,6 +28,13 @@ async function addArticle(articleParam) {
 // get all articles
 async function getAll() {
   return await Article.find();
+}
+
+//get articles based on claims
+async function getArticlesBasedOnClaims(id) {
+  return await Article.find({
+    claimID: id,
+  });
 }
 
 // get articles based on article status
