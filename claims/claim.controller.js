@@ -4,8 +4,8 @@ const claimService = require("./claim.service");
 const { authorize } = require("../_helpers/authorize");
 
 // routes
-router.get("/", authorize(), getAll);
-router.get("/:id", authorize(), getClaimsForPractice);
+router.get("/", getAll);
+router.get("/:id", getClaimsForPractice);
 router.post("/addClaim", authorize(), addClaim);
 router.put("/updateClaim", authorize(), updateClaim);
 router.delete("/:id", authorize(), _delete);

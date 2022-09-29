@@ -1,22 +1,57 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export const Search = () => {
+    //Populate the practice list from the menu
+    const [practiceList, setPracticeList] = useState([]);
+
+    //retrieve list of practice from database
+    useEffect(()=>{
+        axios.get('http://localhost:4000/practices')
+        .then(res => {
+            setPracticeList(res.data);
+        }
+        )
+        .catch(err => console.log(err));
+    },[])
+
     const [practice, setPractice] = useState('');
+    const [practiceDisplay, setPracticeDisplay] = useState('');
 
     const navigate = useNavigate();
 
-    const handleSelect = (eventKey) => {
+    //Set the selected practice
+    const handleSelect = (eventKey, event) => {
         setPractice(eventKey);
+        setPracticeDisplay(event.target.innerHTML);
     }
 
-    const navigateClaim = (claim) => {
+    //Set the claims for the selected practice
+    const [claims, setClaims] = useState([]);
+
+    useEffect(()=>{
+        if(!practice) return
+        axios.get(`http://localhost:4000/claims/${practice}`)
+        .then(res => {
+            setClaims(res.data);
+        }
+        )
+        .catch(err => console.log(err));
+    },[practice])
+
+
+    //Navigate to the claim page
+    const navigateClaim = (claim, event) => {
+        
         navigate('/search/'+claim, {
             state: {
                 practice: practice,
-                claim: claim
+                claim: claim,
+                claimTitle: event.target.innerHTML
             }
         });
     }
@@ -29,25 +64,38 @@ export const Search = () => {
         </div>
         <div className='d-flex flex-column gap-3 justify-content-center align-items-center'
         style={{height: '50vh', width: '100vw'}}>
+            {!practice &&
             <DropdownButton
             variant={practice ? 'outline-secondary' :'outline-primary'}
             title="Select a software engineering practice"
             onSelect={handleSelect}
             >
-                <Dropdown.Item eventKey="option-1">option-1</Dropdown.Item>
-                <Dropdown.Item eventKey="option-2">option-2</Dropdown.Item>
-                <Dropdown.Item eventKey="option-3">option 3</Dropdown.Item>
+                {practiceList.map((practice) => (
+                    <Dropdown.Item eventKey={practice.id} key={practice.title}
+                    name = {practice.title}
+                    >{practice.title}</Dropdown.Item>
+                ))}
             </DropdownButton>
+            }
+
             { practice &&
+            <>
             <DropdownButton
-            variant='outline-primary'
-            title={`Select a claim for ${practice}`}
+            title={`Select a claim for ${practiceDisplay}`}
             onSelect={navigateClaim}
             >
-                <Dropdown.Item eventKey="claim-1">claim-1</Dropdown.Item>
-                <Dropdown.Item eventKey="claim-2">claim-2</Dropdown.Item>
-                <Dropdown.Item eventKey="claim-3">claim 3</Dropdown.Item>
+                {claims.map((claim) => (
+                    <Dropdown.Item eventKey={claim.id} key={claim.id}
+                    >{claim.claim}</Dropdown.Item>
+                ))}
             </DropdownButton>
+            <p>Or...</p>
+            <Button 
+            variant='outline-secondary'
+            onClick={() => setPractice('')}>
+                Select another practice
+            </Button>
+            </>
             }
 
         </div>
