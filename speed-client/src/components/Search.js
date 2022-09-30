@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export const Search = () => {
@@ -59,7 +59,9 @@ export const Search = () => {
     return (
         <>
         <div className='text-center m-3'>
+            <Link to='/' className='text-dark text-decoration-none'>
             <h1>SPEED</h1>
+            </Link>
             <p>Software Practice Empirical Evidence Database</p>
         </div>
         <div className='d-flex flex-column gap-3 justify-content-center align-items-center'
