@@ -5,8 +5,11 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../authentication/AuthSetUp";
 
 export const Landing = () => {
+  const { user, jwt } = useAuth();
+  const AuthString = "Bearer ".concat(jwt);
   //Populate articles
   const [articles, setArticles] = useState([]);
 
@@ -14,10 +17,14 @@ export const Landing = () => {
   useEffect(() => {
     axios
       .get(
-        `${process.env.REACT_APP_DB_URL}/articles/getArticlesForWorkDistribution`
+        `${process.env.REACT_APP_DB_URL}/articles/getArticlesForWorkDistribution`,
+        {
+          headers: { Authorization: AuthString },
+        }
       )
       .then((res) => {
         setArticles(res.data);
+        console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, []);

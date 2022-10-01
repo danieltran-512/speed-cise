@@ -3,8 +3,16 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
+import { useAuth } from "./authentication/AuthSetUp";
+import { Role } from "./authentication/AuthSetUp";
 
 export const Landing = () => {
+  const { user } = useAuth();
+
+  if (user.role === Role.Moderator) {
+    return Landing;
+  }
+
   return (
     <div
       className="d-flex justify-content-center align-items-center"
