@@ -31,6 +31,7 @@ async function getAll() {
   return await User.find();
 }
 
+// fix something here
 async function getById(id) {
   return await User.findById(id);
 }

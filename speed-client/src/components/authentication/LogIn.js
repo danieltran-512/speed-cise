@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./AuthSetUp";
 
 export const LogIn = () => {
+  const navigate = useNavigate();
   const { signin, isAuthed } = useAuth();
   const [error, setError] = useState("");
   const handleSubmit = (e) => {
@@ -21,8 +22,10 @@ export const LogIn = () => {
         // console.log(res?.message);
         // console.log("res: " + res);
         setError("");
-        if (res?.response.status === 400) {
+        if (res?.response?.status === 400) {
           setError("Username or password incorrect");
+        } else {
+          navigate("/");
         }
       })
       .catch((error) => {

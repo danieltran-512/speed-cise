@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../authentication/AuthSetUp";
 
-export const Landing = () => {
+export const ModeratorLanding = () => {
   const { user, jwt } = useAuth();
   const AuthString = "Bearer ".concat(jwt);
   //Populate articles
@@ -33,12 +33,12 @@ export const Landing = () => {
   //Navigate to the claim page
   const navigateClaim = (claim, event) => {
     navigate("/search/" + claim, {
-      state: {
-        practice: practice,
-        claim: claim,
-        claimTitle: event.target.innerHTML,
-      },
+      state: {},
     });
   };
-  return <></>;
+  return (
+    <>
+      <h1>moderator</h1>
+    </>
+  );
 };

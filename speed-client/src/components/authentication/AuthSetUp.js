@@ -55,7 +55,7 @@ const useProvideAuth = () => {
         });
     };
 
-    console.log(jwt);
+    //console.log(jwt);
     // If JWT is stored then load user
     if (jwt != null) {
       getUser();
@@ -119,14 +119,13 @@ const useProvideAuth = () => {
 
   // Handle signing up
   const signup = async (user) => {
-    if (user.accountType == "submitter") {
+    if (user.accountType === "submitter") {
       const userParam = {
         username: user.username,
         password: user.password,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        role: user.accountType.toLowerCase(),
       };
       console.log("reachced here");
       await axiosapi
