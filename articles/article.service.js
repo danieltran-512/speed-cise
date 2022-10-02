@@ -36,6 +36,7 @@ async function getAll() {
 //get articles based on claims
 async function getArticlesBasedOnClaims(id) {
   return await Article.find({
+    status: "analysed",
     claimID: id,
   });
 }
