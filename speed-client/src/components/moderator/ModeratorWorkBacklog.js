@@ -8,7 +8,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../authentication/AuthSetUp";
 
-// TODO select a self-assigned article to moderate (article status have to still be in "submitted" mode)
 export const ModeratorWorkBacklog = () => {
   const { user, jwt } = useAuth();
   const AuthString = "Bearer ".concat(jwt);
@@ -16,9 +15,6 @@ export const ModeratorWorkBacklog = () => {
   //Populate articles
   const [articles, setArticles] = useState([]);
   const [UI, setUI] = useState([]);
-  let workDistributionParam = {
-    status: "submitted",
-  };
 
   //retrieve articles for work distribution
   useEffect(() => {

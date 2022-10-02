@@ -8,6 +8,8 @@ import { LogIn } from "../components/authentication/LogIn";
 import { SignUp } from "../components/authentication/SignUp";
 import { ModeratorWorkBacklog } from "../components/moderator/ModeratorWorkBacklog";
 import { Moderate } from "../components/moderator/Moderate";
+import { AnalystWorkBacklog } from "../components/analyst/AnalystWorkBacklog";
+import { Analyse } from "../components/analyst/Analyse";
 
 export const Routing = () => {
   return (
@@ -21,6 +23,8 @@ export const Routing = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/moderatorbacklog" element={<ModeratorWorkBacklog />} />
         <Route path="/moderate/:id" element={<Moderate />} />
+        <Route path="/analystbacklog" element={<AnalystWorkBacklog />} />
+        <Route path="/analyse/:id" element={<Analyse />} />
       </Routes>
     </Router>
   );
