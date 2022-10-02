@@ -5,9 +5,6 @@ const articleService = require("./article.service");
 const { authorize } = require("../_helpers/authorize");
 
 // routes
-router.get("/", getAll);
-router.get("/:id", getArticlesBasedOnClaims);
-
 router.get(
   "/getArticlesForWorkDistribution",
   authorize(),
@@ -24,6 +21,8 @@ router.get(
   getArticlesForModerator
 );
 router.get("/getArticlesForAnalyst/:id", authorize(), getArticlesForAnalyst);
+router.get("/", getAll);
+router.get("/:id", getArticlesBasedOnClaims);
 router.post("/addArticle", authorize(), addArticle);
 router.put("/updateArticleStatus", authorize(), updateArticleStatus);
 router.put(

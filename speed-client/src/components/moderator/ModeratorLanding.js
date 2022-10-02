@@ -10,28 +10,35 @@ import { useAuth } from "../authentication/AuthSetUp";
 export const ModeratorLanding = () => {
   const { user, jwt } = useAuth();
   const AuthString = "Bearer ".concat(jwt);
+  const navigate = useNavigate();
   //Populate articles
   const [articles, setArticles] = useState([]);
+  let workDistributionParam = {
+    status: "submitted",
+  };
 
   //retrieve articles for work distribution
   useEffect(() => {
-    axios
-      .get(
-        `${process.env.REACT_APP_DB_URL}/articles/getArticlesForWorkDistribution`,
-        {
-          headers: { Authorization: AuthString },
-        }
-      )
-      .then((res) => {
-        setArticles(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => console.log(err));
+    async function fetchWorkDistribution() {
+      await axios
+        .get(
+          `${process.env.REACT_APP_DB_URL}/articles/getArticlesForWorkDistribution`,
+          {
+            params: workDistributionParam,
+            headers: { Authorization: AuthString },
+          }
+        )
+        .then((res) => {
+          setArticles(res.data);
+          console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
+    fetchWorkDistribution();
   }, []);
-  const navigate = useNavigate();
 
-  //Navigate to the claim page
-  const navigateClaim = (claim, event) => {
+  //Navigate to the work backlog page
+  const navigateWorkBacklog = (claim, event) => {
     navigate("/search/" + claim, {
       state: {},
     });
