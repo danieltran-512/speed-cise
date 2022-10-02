@@ -41,17 +41,17 @@ async function getArticlesBasedOnClaims(id) {
 }
 
 // get articles based on article status (moderator)
-async function getArticlesForModeratorDistribution(articleParam) {
+async function getArticlesForModeratorDistribution() {
   return await Article.find({
-    status: articleParam.status,
+    status: "submitted",
     moderatorID: { $exists: false },
   });
 }
 
 // get articles based on article status (analyst)
-async function getArticlesForAnalystDistribution(articleParam) {
+async function getArticlesForAnalystDistribution() {
   return await Article.find({
-    status: articleParam.status,
+    status: "moderated",
     analystID: { $exists: false },
   });
 }
@@ -66,6 +66,7 @@ async function getArticlesForSubmitter(id) {
 // get articles based on moderatorID
 async function getArticlesForModerator(id) {
   return await Article.find({
+    status: "submitted",
     moderatorID: id,
   });
 }
@@ -73,6 +74,7 @@ async function getArticlesForModerator(id) {
 // get articles based on analystID
 async function getArticlesForAnalyst(id) {
   return await Article.find({
+    status: "moderated",
     analystID: id,
   });
 }

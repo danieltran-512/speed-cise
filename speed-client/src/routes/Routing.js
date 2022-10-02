@@ -7,6 +7,7 @@ import { ResultDetails } from "../components/ResultDetails";
 import { LogIn } from "../components/authentication/LogIn";
 import { SignUp } from "../components/authentication/SignUp";
 import { ModeratorWorkBacklog } from "../components/moderator/ModeratorWorkBacklog";
+import { Moderate } from "../components/moderator/Moderate";
 
 export const Routing = () => {
   return (
@@ -19,6 +20,7 @@ export const Routing = () => {
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/moderatorbacklog" element={<ModeratorWorkBacklog />} />
+        <Route path="/moderate/:id" element={<Moderate />} />
       </Routes>
     </Router>
   );

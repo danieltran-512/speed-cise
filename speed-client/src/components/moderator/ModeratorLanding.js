@@ -14,9 +14,6 @@ export const ModeratorLanding = () => {
   //Populate articles
   const [articles, setArticles] = useState([]);
   const [UI, setUI] = useState([]);
-  let workDistributionParam = {
-    status: "submitted",
-  };
 
   //retrieve articles for work distribution
   useEffect(() => {
@@ -25,7 +22,6 @@ export const ModeratorLanding = () => {
         .get(
           `${process.env.REACT_APP_DB_URL}/articles/getArticlesForModeratorDistribution`,
           {
-            params: workDistributionParam,
             headers: { Authorization: AuthString },
           }
         )
@@ -39,7 +35,11 @@ export const ModeratorLanding = () => {
   }, []);
 
   useEffect(() => {
-    generateUI(articles);
+    if (articles.length > 0) {
+      generateUI(articles);
+    } else {
+      setUI(<h1>No articles to self-assign!</h1>);
+    }
   }, [articles]);
 
   const selfAssign = async (id) => {

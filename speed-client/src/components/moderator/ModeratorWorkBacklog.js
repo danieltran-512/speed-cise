@@ -22,12 +22,11 @@ export const ModeratorWorkBacklog = () => {
 
   //retrieve articles for work distribution
   useEffect(() => {
-    async function fetchWorkDistribution() {
+    async function fetchAssignedWork() {
       await axios
         .get(
-          `${process.env.REACT_APP_DB_URL}/articles/getArticlesForModeratorDistribution`,
+          `${process.env.REACT_APP_DB_URL}/articles/getArticlesForModerator/${user.id}`,
           {
-            params: workDistributionParam,
             headers: { Authorization: AuthString },
           }
         )
@@ -37,31 +36,23 @@ export const ModeratorWorkBacklog = () => {
         })
         .catch((err) => console.log(err));
     }
-    fetchWorkDistribution();
+    fetchAssignedWork();
   }, []);
 
   useEffect(() => {
-    generateUI(articles);
+    if (articles.length > 0) {
+      generateUI(articles);
+    } else {
+      setUI(<h1>No articles to self-assign!</h1>);
+    }
   }, [articles]);
 
-  const selfAssign = async (id) => {
-    let body = {
-      id: id,
-      moderatorID: user.id,
-    };
-    await axios
-      .put(
-        `${process.env.REACT_APP_DB_URL}/articles/updateArticleModeratorID`,
-        body,
-        {
-          headers: { Authorization: AuthString },
-        }
-      )
-      .then((res) => {
-        setArticles(articles.filter((i) => i.id !== id));
-        console.log(res.data);
-      })
-      .catch((err) => console.log(err));
+  const moderate = async (article) => {
+    navigate("/moderate/" + article.id, {
+      state: {
+        article: article,
+      },
+    });
   };
 
   // make UI
@@ -73,7 +64,7 @@ export const ModeratorWorkBacklog = () => {
         <>
           <p>
             {index + 1}. {article.title}{" "}
-            <button onClick={() => selfAssign(article.id)}>Self-Assign</button>
+            <button onClick={() => moderate(article)}>Moderate</button>
           </p>
         </>
       );
@@ -82,16 +73,14 @@ export const ModeratorWorkBacklog = () => {
   };
 
   //Navigate to the work backlog page
-  const navigateWorkBacklog = (claim, event) => {
-    navigate("/search/" + claim, {
-      state: {},
-    });
+  const navigateHome = () => {
+    navigate("/");
   };
   return (
     <>
       <h1>Welcome {user.username}</h1>
-      <button>Go to work backlog</button>
-      <h2>yo.</h2>
+      <button onClick={() => navigateHome()}>Go Home</button>
+      <h2>Please choose any of your assigned articles to moderate</h2>
       {UI}
     </>
   );

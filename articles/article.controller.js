@@ -64,14 +64,14 @@ function getArticlesBasedOnClaims(req, res, next) {
 
 function getArticlesForModeratorDistribution(req, res, next) {
   articleService
-    .getArticlesForModeratorDistribution(req.query)
+    .getArticlesForModeratorDistribution()
     .then((articles) => res.json(articles))
     .catch((err) => next(err));
 }
 
 function getArticlesForAnalystDistribution(req, res, next) {
   articleService
-    .getArticlesForAnalystDistribution(req.query)
+    .getArticlesForAnalystDistribution()
     .then((articles) => res.json(articles))
     .catch((err) => next(err));
 }
