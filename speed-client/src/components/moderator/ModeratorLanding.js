@@ -80,14 +80,13 @@ export const ModeratorLanding = () => {
   };
 
   //Navigate to the work backlog page
-  const navigateWorkBacklog = (claim, event) => {
-    navigate("/search/" + claim, {
-      state: {},
-    });
+  const navigateWorkBacklog = () => {
+    navigate("/moderatorbacklog");
   };
   return (
     <>
       <h1>Welcome {user.username}</h1>
+      <button onClick={() => navigateWorkBacklog()}>Go to work backlog</button>
       <h2>Please self-assign articles from below to moderate.</h2>
       {UI}
     </>

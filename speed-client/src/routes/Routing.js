@@ -6,6 +6,7 @@ import { Landing } from "../components/Landing";
 import { ResultDetails } from "../components/ResultDetails";
 import { LogIn } from "../components/authentication/LogIn";
 import { SignUp } from "../components/authentication/SignUp";
+import { ModeratorWorkBacklog } from "../components/moderator/ModeratorWorkBacklog";
 
 export const Routing = () => {
   return (
@@ -17,6 +18,7 @@ export const Routing = () => {
         <Route path="/search/:id/:id" element={<ResultDetails />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/moderatorbacklog" element={<ModeratorWorkBacklog />} />
       </Routes>
     </Router>
   );
