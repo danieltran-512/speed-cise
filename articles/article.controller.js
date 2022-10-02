@@ -6,9 +6,14 @@ const { authorize } = require("../_helpers/authorize");
 
 // routes
 router.get(
-  "/getArticlesForWorkDistribution",
+  "/getArticlesForModeratorDistribution",
   authorize(),
-  getArticlesForWorkDistribution
+  getArticlesForModeratorDistribution
+);
+router.get(
+  "/getArticlesForAnalystDistribution",
+  authorize(),
+  getArticlesForAnalystDistribution
 );
 router.get(
   "/getArticlesForSubmitter/:id",
@@ -25,6 +30,8 @@ router.get("/", getAll);
 router.get("/:id", getArticlesBasedOnClaims);
 router.post("/addArticle", authorize(), addArticle);
 router.put("/updateArticleStatus", authorize(), updateArticleStatus);
+router.put("/updateArticleModeratorID", authorize(), updateArticleModeratorID);
+router.put("/updateArticleAnalystID", authorize(), updateArticleAnalystID);
 router.put(
   "/updateArticleEvidenceResult",
   authorize(),
@@ -55,9 +62,16 @@ function getArticlesBasedOnClaims(req, res, next) {
     .catch((err) => next(err));
 }
 
-function getArticlesForWorkDistribution(req, res, next) {
+function getArticlesForModeratorDistribution(req, res, next) {
   articleService
-    .getArticlesForWorkDistribution(req.query)
+    .getArticlesForModeratorDistribution(req.query)
+    .then((articles) => res.json(articles))
+    .catch((err) => next(err));
+}
+
+function getArticlesForAnalystDistribution(req, res, next) {
+  articleService
+    .getArticlesForAnalystDistribution(req.query)
     .then((articles) => res.json(articles))
     .catch((err) => next(err));
 }
@@ -86,6 +100,20 @@ function getArticlesForAnalyst(req, res, next) {
 function updateArticleStatus(req, res, next) {
   articleService
     .updateArticleStatus(req.body)
+    .then((articles) => (articles ? res.json(articles) : res.sendStatus(404)))
+    .catch((err) => next(err));
+}
+
+function updateArticleModeratorID(req, res, next) {
+  articleService
+    .updateArticleModeratorID(req.body)
+    .then((articles) => (articles ? res.json(articles) : res.sendStatus(404)))
+    .catch((err) => next(err));
+}
+
+function updateArticleAnalystID(req, res, next) {
+  articleService
+    .updateArticleAnalystID(req.body)
     .then((articles) => (articles ? res.json(articles) : res.sendStatus(404)))
     .catch((err) => next(err));
 }

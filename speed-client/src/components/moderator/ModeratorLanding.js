@@ -13,6 +13,7 @@ export const ModeratorLanding = () => {
   const navigate = useNavigate();
   //Populate articles
   const [articles, setArticles] = useState([]);
+  const [UI, setUI] = useState([]);
   let workDistributionParam = {
     status: "submitted",
   };
@@ -22,7 +23,7 @@ export const ModeratorLanding = () => {
     async function fetchWorkDistribution() {
       await axios
         .get(
-          `${process.env.REACT_APP_DB_URL}/articles/getArticlesForWorkDistribution`,
+          `${process.env.REACT_APP_DB_URL}/articles/getArticlesForModeratorDistribution`,
           {
             params: workDistributionParam,
             headers: { Authorization: AuthString },
@@ -37,6 +38,47 @@ export const ModeratorLanding = () => {
     fetchWorkDistribution();
   }, []);
 
+  useEffect(() => {
+    generateUI(articles);
+  }, [articles]);
+
+  const selfAssign = async (id) => {
+    let body = {
+      id: id,
+      moderatorID: user.id,
+    };
+    await axios
+      .put(
+        `${process.env.REACT_APP_DB_URL}/articles/updateArticleModeratorID`,
+        body,
+        {
+          headers: { Authorization: AuthString },
+        }
+      )
+      .then((res) => {
+        setArticles(articles.filter((i) => i.id !== id));
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  // make UI
+  const generateUI = (articles) => {
+    let temp = [];
+
+    articles.map((article, index) => {
+      temp.push(
+        <>
+          <p>
+            {index + 1}. {article.title}{" "}
+            <button onClick={() => selfAssign(article.id)}>Self-Assign</button>
+          </p>
+        </>
+      );
+    });
+    setUI(temp);
+  };
+
   //Navigate to the work backlog page
   const navigateWorkBacklog = (claim, event) => {
     navigate("/search/" + claim, {
@@ -45,7 +87,9 @@ export const ModeratorLanding = () => {
   };
   return (
     <>
-      <h1>moderator</h1>
+      <h1>Welcome {user.username}</h1>
+      <h2>Please self-assign articles from below to moderate.</h2>
+      {UI}
     </>
   );
 };
