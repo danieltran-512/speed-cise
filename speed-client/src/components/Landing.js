@@ -7,6 +7,7 @@ import { useAuth } from "./authentication/AuthSetUp";
 import { Role } from "./authentication/AuthSetUp";
 import { ModeratorLanding } from "./moderator/ModeratorLanding";
 import { AnalystLanding } from "./analyst/AnalystLanding";
+import { SubmitterLanding} from "./submitter/SubmitterLanding";
 
 export const Landing = () => {
   const { user } = useAuth();
@@ -15,6 +16,8 @@ export const Landing = () => {
     return <ModeratorLanding />;
   } else if (user?.role === Role.Analyst) {
     return <AnalystLanding />;
+  } else if (user?.role === Role.Submitter) {
+    return <SubmitterLanding />;
   } else {
     return (
       <div
