@@ -49,7 +49,12 @@ async function getRatingsForArticle(id) {
 
   let avg = sum / ratings.length;
 
-  return avg;
+  const rating = {
+    average: avg,
+    count: ratings.length,
+  }
+
+  return rating;
 }
 
 // update rating

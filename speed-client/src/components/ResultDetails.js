@@ -109,7 +109,10 @@ export const ResultDetails = () => {
           <Row>
             <Col>
               <h5>RATINGS</h5>
-              <Rating className="mb-2" initialValue={rating} readonly={true} allowFraction={true} size={25}/>
+              <Rating 
+              showTooltip={true}
+              className="mb-2" initialValue={rating.average} readonly={true} allowFraction={true} size={25}/>
+              <p>Rating is based on {rating.count} users</p>
             </Col>
           </Row>
 
