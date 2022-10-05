@@ -1,9 +1,12 @@
-import './App.css';
-import { Routing } from './routes/Routing';
+import "./App.css";
+import { Routing } from "./routes/Routing";
+import { ProvideAuth } from "./components/authentication/AuthSetUp";
 
 function App() {
   return (
-    <Routing />
+    <ProvideAuth>
+      <Routing />
+    </ProvideAuth>
   );
 }
 

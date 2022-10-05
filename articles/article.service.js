@@ -9,11 +9,14 @@ module.exports = {
   addArticle,
   getAll,
   getArticlesBasedOnClaims,
-  getArticlesForWorkDistribution,
+  getArticlesForModeratorDistribution,
+  getArticlesForAnalystDistribution,
   getArticlesForSubmitter,
   getArticlesForModerator,
   getArticlesForAnalyst,
   updateArticleStatus,
+  updateArticleModeratorID,
+  updateArticleAnalystID,
   updateArticleEvidenceResult,
   delete: _delete,
 };
@@ -33,14 +36,24 @@ async function getAll() {
 //get articles based on claims
 async function getArticlesBasedOnClaims(id) {
   return await Article.find({
+    status: "analysed",
     claimID: id,
   });
 }
 
-// get articles based on article status
-async function getArticlesForWorkDistribution(articleParam) {
+// get articles based on article status (moderator)
+async function getArticlesForModeratorDistribution() {
   return await Article.find({
-    status: articleParam.status,
+    status: "submitted",
+    moderatorID: { $exists: false },
+  });
+}
+
+// get articles based on article status (analyst)
+async function getArticlesForAnalystDistribution() {
+  return await Article.find({
+    status: "moderated",
+    analystID: { $exists: false },
   });
 }
 
@@ -54,6 +67,7 @@ async function getArticlesForSubmitter(id) {
 // get articles based on moderatorID
 async function getArticlesForModerator(id) {
   return await Article.find({
+    status: "submitted",
     moderatorID: id,
   });
 }
@@ -61,6 +75,7 @@ async function getArticlesForModerator(id) {
 // get articles based on analystID
 async function getArticlesForAnalyst(id) {
   return await Article.find({
+    status: "moderated",
     analystID: id,
   });
 }
@@ -68,14 +83,28 @@ async function getArticlesForAnalyst(id) {
 // update article's status
 async function updateArticleStatus(articleParam) {
   return await Article.findByIdAndUpdate(articleParam.id, {
-    status: claimParam.status,
+    status: articleParam.status,
+  });
+}
+
+// update article's moderatorID
+async function updateArticleModeratorID(articleParam) {
+  return await Article.findByIdAndUpdate(articleParam.id, {
+    moderatorID: articleParam.moderatorID,
+  });
+}
+
+// update article's analystID
+async function updateArticleAnalystID(articleParam) {
+  return await Article.findByIdAndUpdate(articleParam.id, {
+    analystID: articleParam.analystID,
   });
 }
 
 // update article's evidence result
 async function updateArticleEvidenceResult(articleParam) {
   return await Article.findByIdAndUpdate(articleParam.id, {
-    evidenceResult: claimParam.evidenceResult,
+    evidenceResult: articleParam.evidenceResult,
   });
 }
 
