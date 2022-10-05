@@ -1,13 +1,74 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
+import { Rating } from 'react-simple-star-rating';
+import Modal from 'react-bootstrap/Modal';
 
 export const ResultDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  //creating IP state
+  const [ip, setIP] = useState('');
+
+  //creating function to load ip address from the API
+  const getData = async () => {
+    const res = await axios.get('https://geolocation-db.com/json/')
+    setIP(res.data.IPv4)
+  }
+
+  useEffect( () => {
+    //passing getData method to the lifecycle method
+    getData()
+  }, [])
+
+
+  //Retrieve rating from the database
+  const [rating, setRating] = useState(0);
+
+  //Handle dialog open and close
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  //User rating
+  const [userRating, setUserRating] = useState(0);
+
+  const submitRating = () => {
+    const ratingParams = {
+      articleID: location.state.data.id,
+      practitionerID: ip,
+      score: userRating,
+    }
+
+    axios.post(`${process.env.REACT_APP_DB_URL}/ratings/addRating`, ratingParams)
+    .then(() => {
+      //Close the dialog
+      handleClose();
+
+      //Reload the page
+      window.location.reload();
+    }
+    )
+    .catch(err => {
+      console.log(err);
+    }
+    )
+  }
+
+  //retrieve list of practice from database
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_DB_URL}/ratings/getRatingsForArticle/${location.state.data.id}`)
+      .then((res) => {
+        setRating(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div>
@@ -48,15 +109,41 @@ export const ResultDetails = () => {
           <Row>
             <Col>
               <h5>RATINGS</h5>
-              <p className="text-warning">Under development</p>
+              <Rating className="mb-2" initialValue={rating} readonly={true} allowFraction={true} size={25}/>
             </Col>
           </Row>
 
-          <Button onClick={() => alert("Not yet developed.")}>
+          <Button onClick={handleShow}>
             Submit a rating
           </Button>
         </Container>
       </Container>
+
+
+      <Modal
+        show={show}
+        onHide={handleClose}
+        keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Rate this article</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          On a scale from 1 to 5, how would you rate this article?
+          <div className="text-center">
+          <Rating className="mb-2" 
+            initialValue={0} 
+            onClick={(value) => setUserRating(value)}
+            allowFraction={true} size={25}/>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+
+          <Button variant="primary" onClick={submitRating}>Submit</Button>
+        </Modal.Footer>
+      </Modal>
 
       <div className="text-center m-5">
         <Button variant="outline-primary" onClick={() => navigate(-1)}>
