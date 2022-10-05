@@ -10,6 +10,7 @@ import { ModeratorWorkBacklog } from "../components/moderator/ModeratorWorkBackl
 import { Moderate } from "../components/moderator/Moderate";
 import { AnalystWorkBacklog } from "../components/analyst/AnalystWorkBacklog";
 import { Analyse } from "../components/analyst/Analyse";
+import { SubmitterForm } from "../components/submitter/SubmitterForm";
 
 export const Routing = () => {
   return (
@@ -25,6 +26,7 @@ export const Routing = () => {
         <Route path="/moderate/:id" element={<Moderate />} />
         <Route path="/analystbacklog" element={<AnalystWorkBacklog />} />
         <Route path="/analyse/:id" element={<Analyse />} />
+        <Route path="/submitterform" element={<SubmitterForm />} />
       </Routes>
     </Router>
   );
