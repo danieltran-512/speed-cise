@@ -89,18 +89,18 @@ const {
       </table>  
      {/* Pagination */}
      <div className="text-center mt-2">
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+        <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
-        </button>{' '}
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+        </Button>{' '}
+        <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
           {'<'}
-        </button>{' '}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
+        </Button>{' '}
+        <Button onClick={() => nextPage()} disabled={!canNextPage}>
           {'>'}
-        </button>{' '}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+        </Button>{' '}
+        <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
           {'>>'}
-        </button>{' '}
+        </Button>{' '}
         <span>
           Page{' '}
           <strong>

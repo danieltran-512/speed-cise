@@ -18,7 +18,6 @@ export const SearchResults = () => {
       .get(`${process.env.REACT_APP_DB_URL}/articles/${location.state.claim}`)
       .then((res) => {
         setArticles(res.data);
-        console.log(typeof res.data[0].publicationYear);
       })
       .catch((err) => console.log(err));
   }, []);

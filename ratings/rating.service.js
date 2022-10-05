@@ -22,6 +22,9 @@ async function addRating(ratingParam) {
   if (!doc) {
     // make new rating if it doesn't exist already
     doc = new Rating(ratingParam);
+  } else {
+    // update rating if it exists
+    doc.score = ratingParam.score;
   }
   return await doc.save();
 }
@@ -33,9 +36,25 @@ async function getAll() {
 
 // get ratings based on an article
 async function getRatingsForArticle(id) {
-  return await Rating.find({
+  const ratings = await Rating.find({
     articleID: id,
   });
+
+  // calculate average rating
+  let sum = 0;
+  
+  for (let i = 0; i < ratings.length; i++) {
+    sum += ratings[i].score;
+  }
+
+  let avg = sum / ratings.length;
+
+  const rating = {
+    average: avg,
+    count: ratings.length,
+  }
+
+  return rating;
 }
 
 // update rating

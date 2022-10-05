@@ -5,8 +5,8 @@ const { authorize } = require("../_helpers/authorize");
 
 // routes
 router.get("/", authorize(), getAll);
-router.get("/getRatingsForArticle/:id", authorize(), getRatingsForArticle);
-router.post("/addRating", authorize(), addRating);
+router.get("/getRatingsForArticle/:id", getRatingsForArticle);
+router.post("/addRating", addRating);
 router.put("/updateRating", authorize(), updateRating);
 router.delete("/:id", authorize(), _delete);
 
