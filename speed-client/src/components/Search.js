@@ -68,12 +68,14 @@ export const Search = () => {
       >
         {!practice && (
           <DropdownButton
+            data-testid="dropdown-se-practice"
             variant={practice ? "outline-secondary" : "outline-primary"}
             title="Select a software engineering practice"
             onSelect={handleSelect}
           >
             {practiceList.map((practice) => (
               <Dropdown.Item
+                data-testid = "dropdown-se-practice-item"
                 eventKey={practice.id}
                 key={practice.title}
                 name={practice.title}
