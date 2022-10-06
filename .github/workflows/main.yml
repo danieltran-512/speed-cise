@@ -1,25 +1,17 @@
-name: CI_action
+name: Deploy
+
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Set up Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install dependencies
-      run: npm install
-    - name: Run the tests
-      run: npm test
-    - name: Build
-      run: npm run build
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${7593849d-9a5a-4585-a91c-00127d06cd66}
+          heroku_app_name: "cise-speed-2022" #Must be unique in Heroku
+          heroku_email: "prunella.poiney@gmail.com"
