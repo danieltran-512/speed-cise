@@ -1,10 +1,12 @@
 require("rootpath")();
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const errorHandler = require("./_helpers/error-handler");
 const { authorize, blacklist } = require("./_helpers/authorize");
+
 // Accessing the path module
 const path = require("path");
 
