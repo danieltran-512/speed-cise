@@ -28,6 +28,19 @@ function logout(req, res, next) {
   // .catch(err => next(err));
 }
 
+// Global error handler
+app.use(errorHandler);
+// Handle errors.
+app.use(function (req, res, next) {
+  res.status(404);
+  res.json({ error: "endpoint-not-found" });
+});
+
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+  res.json({ error: err });
+});
+
 if (process.env.NODE_ENV === "production") {
   console.log("if statement reached");
   // Step 1:
@@ -43,18 +56,4 @@ if (process.env.NODE_ENV === "production") {
     res.send("Api running");
   });
 }
-
-// Global error handler
-app.use(errorHandler);
-// Handle errors.
-app.use(function (req, res, next) {
-  res.status(404);
-  res.json({ error: "endpoint-not-found" });
-});
-
-app.use(function (err, req, res, next) {
-  res.status(err.status || 500);
-  res.json({ error: err });
-});
-
 module.exports = app;
