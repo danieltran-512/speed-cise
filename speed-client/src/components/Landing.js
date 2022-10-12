@@ -48,6 +48,15 @@ export const Landing = () => {
               </Link>
             </Col>
           </Row>
+          <Row>
+            <Col>
+              <Link to={"/submitterform"}>
+                <button className="btn btn-outline-primary btn-block">
+                  Submit Form
+                </button>
+              </Link>
+            </Col>
+          </Row>
           <Row className="mt-5 text-right">
             <Col>
               <p>
