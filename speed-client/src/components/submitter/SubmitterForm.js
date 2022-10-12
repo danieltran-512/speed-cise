@@ -24,7 +24,7 @@ export const SubmitterForm = () => {
       journal: e.target[2].value,
       publicationYear: e.target[3].value,
       researchType: researchType,
-      participantType: participantType
+      participantType: participantType,
     };
     submitArticle(body);
   };
@@ -112,6 +112,15 @@ export const SubmitterForm = () => {
         </div>
 
         {UI}
+        <br></br>
+        <div className="text-center">
+          <Link to={"/"}>
+            <button className="btn btn-outline-primary btn-block">
+              Go back to Home
+            </button>
+          </Link>
+        </div>
+
       </Form>
     </div>
   );
