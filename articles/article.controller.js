@@ -15,11 +15,7 @@ router.get(
   authorize(),
   getArticlesForAnalystDistribution
 );
-router.get(
-  "/getArticlesForSubmitter/:id",
-  authorize(),
-  getArticlesForSubmitter
-);
+
 router.get(
   "/getArticlesForModerator/:id",
   authorize(),
@@ -76,12 +72,6 @@ function getArticlesForAnalystDistribution(req, res, next) {
     .catch((err) => next(err));
 }
 
-function getArticlesForSubmitter(req, res, next) {
-  articleService
-    .getArticlesForSubmitter(req.params.id)
-    .then((articles) => res.json(articles))
-    .catch((err) => next(err));
-}
 
 function getArticlesForModerator(req, res, next) {
   articleService
