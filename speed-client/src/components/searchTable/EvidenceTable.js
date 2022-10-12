@@ -47,6 +47,7 @@ const Table = ({ columns, data }) => {
   return (
     <>
       {/* Loop through columns data to create checkbox */}
+      <p>Click on any header title to sort the table accordingly.</p>
       {allColumns.map((column) => (
         <div class="cb action" key={column.id}>
           <label>
@@ -55,6 +56,7 @@ const Table = ({ columns, data }) => {
           </label>
         </div>
       ))}
+
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
