@@ -66,7 +66,11 @@ const Table = ({ columns, data }) => {
                   {column.render("Header")}
                   {/* Add a sort direction indicator */}
                   <span>
-                    {column.isSorted ? (column.isSortedDesc ? " ￿" : " ￿") : ""}
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? " (Descending)"
+                        : " (Ascending)"
+                      : ""}
                   </span>
                 </th>
               ))}
