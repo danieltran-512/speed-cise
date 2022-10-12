@@ -17,6 +17,10 @@ export const SearchResults = () => {
     axios
       .get(`${process.env.REACT_APP_DB_URL}/articles/${location.state.claim}`)
       .then((res) => {
+        res.data.map((i) => {
+          let temp = new Date(i.publicationYear);
+          i.publicationYear = temp.getFullYear();
+        });
         setArticles(res.data);
       })
       .catch((err) => console.log(err));
