@@ -11,7 +11,6 @@ module.exports = {
   getArticlesBasedOnClaims,
   getArticlesForModeratorDistribution,
   getArticlesForAnalystDistribution,
-  getArticlesForSubmitter,
   getArticlesForModerator,
   getArticlesForAnalyst,
   updateArticleStatus,
@@ -57,12 +56,6 @@ async function getArticlesForAnalystDistribution() {
   });
 }
 
-// get articles based on submitterID
-async function getArticlesForSubmitter(id) {
-  return await Article.find({
-    submitterID: id,
-  });
-}
 
 // get articles based on moderatorID
 async function getArticlesForModerator(id) {

@@ -11,7 +11,6 @@ const articleSchema = new Schema({
   participantType: { type: String },
   status: { type: String },
   claimID: { type: String },
-  submitterID: { type: String },
   moderatorID: { type: String },
   analystID: { type: String },
 });

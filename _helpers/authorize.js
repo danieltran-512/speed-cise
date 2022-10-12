@@ -25,6 +25,7 @@ function authorize(roles = []) {
         // public routes that don't require authentication
         "/users/authenticate",
         "/users/register",
+        "/articles/addArticle"
       ],
     }),
 
