@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,11 +15,13 @@ export const SubmitterForm = () => {
   const [error, setError] = useState("");
   const [participantType, setParticipantType] = useState("");
   const [researchType, setResearchType] = useState("");
-  // ???
+  const [claimID, setClaimID] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(e);
     console.log(participantType);
+    if (claimID === "") return;
+    console.log("claimID: " + claimID);
     let body = {
       title: e.target[0].value,
       authors: e.target[1].value,
@@ -25,8 +29,50 @@ export const SubmitterForm = () => {
       publicationYear: e.target[3].value,
       researchType: researchType,
       participantType: participantType,
+      status: "submitted",
+      claimID: claimID,
     };
     submitArticle(body);
+  };
+
+  //Populate the practice list from the menu
+  const [practiceList, setPracticeList] = useState([]);
+
+  //retrieve list of practice from database
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_DB_URL}/practices`)
+      .then((res) => {
+        setPracticeList(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const [practice, setPractice] = useState("");
+  const [practiceDisplay, setPracticeDisplay] = useState("");
+
+  //Set the selected practice
+  const handleSelect = (eventKey, event) => {
+    setPractice(eventKey);
+    setPracticeDisplay(event.target.innerHTML);
+  };
+
+  //Set the claims for the selected practice
+  const [claims, setClaims] = useState([]);
+
+  useEffect(() => {
+    if (!practice) return;
+    axios
+      .get(`${process.env.REACT_APP_DB_URL}/claims/${practice}`)
+      .then((res) => {
+        setClaims(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [practice]);
+
+  //Navigate to the claim page
+  const navigateClaim = (claim) => {
+    setClaimID(claim);
   };
 
   const submitArticle = async (body) => {
@@ -105,6 +151,53 @@ export const SubmitterForm = () => {
           </Form.Control>
         </Form.Group>
 
+        <Form.Group className="mb-3">
+        <Form.Label>Claim Type</Form.Label>
+          {error && <p>{error}</p>}
+          {!practice && (
+            <>
+              <DropdownButton
+                variant={practice ? "outline-secondary" : "outline-primary"}
+                title="Select a software engineering practice"
+                onSelect={handleSelect}
+              >
+                {practiceList.map((practice) => (
+                  <Dropdown.Item
+                    eventKey={practice.id}
+                    key={practice.title}
+                    name={practice.title}
+                  >
+                    {practice.title}
+                  </Dropdown.Item>
+                ))}
+              </DropdownButton>
+            </>
+          )}
+
+          {practice && (
+            <>
+              <DropdownButton
+                title={`Select a claim for ${practiceDisplay}`}
+                onSelect={navigateClaim}
+              >
+                {claims.map((claim) => (
+                  <Dropdown.Item eventKey={claim.id} key={claim.id}>
+                    {claim.claim}
+                  </Dropdown.Item>
+                ))}
+              </DropdownButton>
+              <br></br>
+              <p>Or...</p>
+              <Button
+                variant="outline-secondary"
+                onClick={() => setPractice("")}
+              >
+                Select another practice
+              </Button>
+            </>
+          )}
+        </Form.Group>
+
         <div className="text-center">
           <Button className="text-uppercase" type="submit">
             Submit Article
@@ -120,7 +213,6 @@ export const SubmitterForm = () => {
             </button>
           </Link>
         </div>
-
       </Form>
     </div>
   );
