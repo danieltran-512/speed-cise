@@ -11,8 +11,6 @@ export const SearchResults = () => {
 
   //Set a list of articles based on the claims
   const [articles, setArticles] = useState([]);
-  console.log("location.state.earliestYear: " + location.state.earliestYear);
-  console.log("location.state.latestYear: " + location.state.latestYear);
 
   useEffect(() => {
     //Retrieve the claim details from the database
