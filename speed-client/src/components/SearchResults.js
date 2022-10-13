@@ -17,11 +17,18 @@ export const SearchResults = () => {
     axios
       .get(`${process.env.REACT_APP_DB_URL}/articles/${location.state.claim}`)
       .then((res) => {
+        let temp = [];
         res.data.map((i) => {
-          let temp = new Date(i.publicationYear);
-          i.publicationYear = temp.getFullYear();
+          let tempDate = new Date(i.publicationYear);
+          i.publicationYear = tempDate.getFullYear();
+          if (
+            i.publicationYear >= location.state.earliestYear &&
+            i.publicationYear <= location.state.latestYear
+          ) {
+            temp.push(i);
+          }
         });
-        setArticles(res.data);
+        setArticles(temp);
       })
       .catch((err) => console.log(err));
   }, []);

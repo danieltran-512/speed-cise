@@ -6,6 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const Search = () => {
+  const year = new Date().getFullYear() - 20;
+  const years = Array.from(new Array(20), (val, index) => index + year);
+  const [earliestYear, setEarliestYear] = useState(year - 1);
+  const [latestYear, setLatestYear] = useState(year + 20);
+  const [error, setError] = useState("");
   //Populate the practice list from the menu
   const [practiceList, setPracticeList] = useState([]);
 
@@ -45,13 +50,27 @@ export const Search = () => {
 
   //Navigate to the claim page
   const navigateClaim = (claim, event) => {
-    navigate("/search/" + claim, {
-      state: {
-        practice: practice,
-        claim: claim,
-        claimTitle: event.target.innerHTML,
-      },
-    });
+    if (earliestYear <= latestYear) {
+      navigate("/search/" + claim, {
+        state: {
+          practice: practice,
+          claim: claim,
+          claimTitle: event.target.innerHTML,
+          earliestYear: earliestYear,
+          latestYear: latestYear,
+        },
+      });
+    } else {
+      setError("Please make sure that your year range is valid.");
+    }
+  };
+
+  const handleEarliestYearChange = (e) => {
+    setEarliestYear(e.target.value);
+  };
+
+  const handleLatestYearChange = (e) => {
+    setLatestYear(e.target.value);
   };
 
   return (
@@ -66,26 +85,65 @@ export const Search = () => {
         className="d-flex flex-column gap-3 justify-content-center align-items-center"
         style={{ height: "50vh", width: "100vw" }}
       >
+        {error && <p>{error}</p>}
         {!practice && (
-          <DropdownButton
-            variant={practice ? "outline-secondary" : "outline-primary"}
-            title="Select a software engineering practice"
-            onSelect={handleSelect}
-          >
-            {practiceList.map((practice) => (
-              <Dropdown.Item
-                eventKey={practice.id}
-                key={practice.title}
-                name={practice.title}
-              >
-                {practice.title}
-              </Dropdown.Item>
-            ))}
-          </DropdownButton>
+          <>
+            <DropdownButton
+              variant={practice ? "outline-secondary" : "outline-primary"}
+              title="Select a software engineering practice"
+              onSelect={handleSelect}
+            >
+              {practiceList.map((practice) => (
+                <Dropdown.Item
+                  eventKey={practice.id}
+                  key={practice.title}
+                  name={practice.title}
+                >
+                  {practice.title}
+                </Dropdown.Item>
+              ))}
+            </DropdownButton>
+          </>
         )}
 
         {practice && (
           <>
+            <label>
+              Select the earliest published year:
+              <select
+                value={earliestYear}
+                onChange={(e) => handleEarliestYearChange(e)}
+              >
+                <option key={`earliestYear`} value={year - 1}>
+                  --
+                </option>
+                {years.map((year, index) => {
+                  return (
+                    <option key={`year${index}`} value={year}>
+                      {year}
+                    </option>
+                  );
+                })}
+              </select>
+            </label>
+            <label>
+              Select the latest published year:
+              <select
+                value={latestYear}
+                onChange={(e) => handleLatestYearChange(e)}
+              >
+                <option key={`latestYear`} value={year + 20}>
+                  --
+                </option>
+                {years.map((year, index) => {
+                  return (
+                    <option key={`year${index}`} value={year}>
+                      {year}
+                    </option>
+                  );
+                })}
+              </select>
+            </label>
             <DropdownButton
               title={`Select a claim for ${practiceDisplay}`}
               onSelect={navigateClaim}
