@@ -10,6 +10,7 @@ export const Search = () => {
   const years = Array.from(new Array(20), (val, index) => index + year);
   const [earliestYear, setEarliestYear] = useState(year - 1);
   const [latestYear, setLatestYear] = useState(year + 20);
+  const [error, setError] = useState("");
   //Populate the practice list from the menu
   const [practiceList, setPracticeList] = useState([]);
 
@@ -49,24 +50,20 @@ export const Search = () => {
 
   //Navigate to the claim page
   const navigateClaim = (claim, event) => {
-    navigate("/search/" + claim, {
-      state: {
-        practice: practice,
-        claim: claim,
-        claimTitle: event.target.innerHTML,
-        earliestYear: earliestYear,
-        latestYear: latestYear,
-      },
-    });
+    if (earliestYear <= latestYear) {
+      navigate("/search/" + claim, {
+        state: {
+          practice: practice,
+          claim: claim,
+          claimTitle: event.target.innerHTML,
+          earliestYear: earliestYear,
+          latestYear: latestYear,
+        },
+      });
+    } else {
+      setError("Please make sure that your year range is valid.");
+    }
   };
-
-  useEffect(() => {
-    console.log("earliestYear: " + earliestYear);
-  }, [earliestYear]);
-
-  useEffect(() => {
-    console.log("latestYear: " + latestYear);
-  }, [latestYear]);
 
   const handleEarliestYearChange = (e) => {
     setEarliestYear(e.target.value);
@@ -88,6 +85,7 @@ export const Search = () => {
         className="d-flex flex-column gap-3 justify-content-center align-items-center"
         style={{ height: "50vh", width: "100vw" }}
       >
+        {error && <p>{error}</p>}
         {!practice && (
           <>
             <DropdownButton
