@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../authentication/AuthSetUp";
+import "./SubmitterForm.css";
 
 export const SubmitterForm = () => {
   const { user, jwt } = useAuth();
@@ -15,7 +16,10 @@ export const SubmitterForm = () => {
   const [error, setError] = useState("");
   const [participantType, setParticipantType] = useState("");
   const [researchType, setResearchType] = useState("");
+  const [practice, setPractice] = useState("");
+  const [practiceDisplay, setPracticeDisplay] = useState("");
   const [claimID, setClaimID] = useState("");
+  const [claimTitle, setClaimTitle] = useState(`Select a specifc claim`);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(e);
@@ -48,9 +52,6 @@ export const SubmitterForm = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  const [practice, setPractice] = useState("");
-  const [practiceDisplay, setPracticeDisplay] = useState("");
-
   //Set the selected practice
   const handleSelect = (eventKey, event) => {
     setPractice(eventKey);
@@ -71,10 +72,11 @@ export const SubmitterForm = () => {
   }, [practice]);
 
   //Navigate to the claim page
-  const navigateClaim = (claim) => {
+  const navigateClaim = (claim, event) => {
     setClaimID(claim);
+    setClaimTitle(event.target.innerHTML);
   };
-
+  //d-flex justify-content-center align-items-center
   const submitArticle = async (body) => {
     await axios
       .post(`${process.env.REACT_APP_DB_URL}/articles/addArticle`, body, {
@@ -86,12 +88,8 @@ export const SubmitterForm = () => {
       })
       .catch((err) => console.log(err));
   };
-
   return (
-    <div
-      className="d-flex justify-content-center align-items-center"
-      style={{ height: "100vh", width: "100vw" }}
-    >
+    <div className="d-flex justify-content-center align-items-center">
       <Form style={{ width: "40vw" }} onSubmit={handleSubmit}>
         <h1 className="text-center mb-5">SPEED | Submit an Article </h1>
         {error && <h1>{error}</h1>}
@@ -152,10 +150,10 @@ export const SubmitterForm = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-        <Form.Label>Claim Type</Form.Label>
+          <Form.Label>Claim Type</Form.Label>
           {error && <p>{error}</p>}
           {!practice && (
-            <>
+            <div className="dropdown">
               <DropdownButton
                 variant={practice ? "outline-secondary" : "outline-primary"}
                 title="Select a software engineering practice"
@@ -171,22 +169,18 @@ export const SubmitterForm = () => {
                   </Dropdown.Item>
                 ))}
               </DropdownButton>
-            </>
+            </div>
           )}
 
           {practice && (
-            <>
-              <DropdownButton
-                title={`Select a claim for ${practiceDisplay}`}
-                onSelect={navigateClaim}
-              >
+            <div className="dropdown">
+              <DropdownButton title={claimTitle} onSelect={navigateClaim}>
                 {claims.map((claim) => (
                   <Dropdown.Item eventKey={claim.id} key={claim.id}>
                     {claim.claim}
                   </Dropdown.Item>
                 ))}
               </DropdownButton>
-              <br></br>
               <p>Or...</p>
               <Button
                 variant="outline-secondary"
@@ -194,7 +188,7 @@ export const SubmitterForm = () => {
               >
                 Select another practice
               </Button>
-            </>
+            </div>
           )}
         </Form.Group>
 
