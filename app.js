@@ -5,6 +5,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const errorHandler = require("./_helpers/error-handler");
 const { authorize, blacklist } = require("./_helpers/authorize");
+// Accessing the path module
+const path = require("path");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -38,5 +40,21 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({ error: err });
 });
+
+if (process.env.NODE_ENV === "production") {
+  console.log("if statement reached");
+  // Step 1:
+  app.use(express.static(path.join(__dirname, "/speed-client/build")));
+  // Step 2:
+  app.get("*", function (request, response) {
+    response.sendFile(
+      path.join(__dirname, "speed-client", "build", "index.html")
+    );
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("Api running");
+  });
+}
 
 module.exports = app;
