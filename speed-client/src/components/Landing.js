@@ -21,11 +21,11 @@ export const Landing = () => {
   } else {
     return (
       <div
-        className="d-flex justify-content-center align-items-center"
+        className="d-flex justify-content-center align-items-center bg-light"
         style={{ height: "100vh", width: "100vw" }}
       >
         <Container
-          className=" border rounded p-4 text-center"
+          className=" border rounded p-4 text-center bg-white"
           style={{ width: "40%" }}
         >
           <Row>

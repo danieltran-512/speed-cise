@@ -89,8 +89,8 @@ export const SubmitterForm = () => {
       .catch((err) => console.log(err));
   };
   return (
-    <div className="d-flex justify-content-center align-items-center">
-      <Form style={{ width: "40vw" }} onSubmit={handleSubmit}>
+    <div className="d-flex justify-content-center align-items-center p-5">
+      <Form style={{ width: "50vw" }} className="border rounded p-5" onSubmit={handleSubmit}>
         <h1 className="text-center mb-5">SPEED | Submit an Article </h1>
         {error && <h1>{error}</h1>}
         <Form.Group className="mb-3">

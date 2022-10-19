@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
-import Button from "react-bootstrap/Button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Container from "react-bootstrap/esm/Container";
 
 export const Search = () => {
   const year = new Date().getFullYear() - 20;
@@ -74,8 +74,8 @@ export const Search = () => {
   };
 
   return (
-    <>
-      <div className="text-center m-3">
+    <div className="vh-100 bg-light">
+      <div className="text-center p-3">
         <Link to="/" className="text-dark text-decoration-none">
           <h1>SPEED</h1>
         </Link>
@@ -85,9 +85,13 @@ export const Search = () => {
         className="d-flex flex-column gap-3 justify-content-center align-items-center"
         style={{ height: "50vh", width: "100vw" }}
       >
+        <Container
+          className=" border rounded p-4 text-left bg-white"
+          style={{ width: "40%" }}
+        >
         {error && <p>{error}</p>}
         {!practice && (
-          <>
+          <div className="text-center">
             <DropdownButton
               variant={practice ? "outline-secondary" : "outline-primary"}
               title="Select a software engineering practice"
@@ -103,13 +107,13 @@ export const Search = () => {
                 </Dropdown.Item>
               ))}
             </DropdownButton>
-          </>
+          </div>
         )}
 
         {practice && (
           <>
             <label>
-              Select the earliest published year:
+              1. Select the earliest published year:
               <select
                 value={earliestYear}
                 onChange={(e) => handleEarliestYearChange(e)}
@@ -126,8 +130,10 @@ export const Search = () => {
                 })}
               </select>
             </label>
+            <br></br>
+            <br></br>
             <label>
-              Select the latest published year:
+              2. Select the latest published year:
               <select
                 value={latestYear}
                 onChange={(e) => handleLatestYearChange(e)}
@@ -144,6 +150,11 @@ export const Search = () => {
                 })}
               </select>
             </label>
+            <br></br>
+            <br></br>
+            <label>
+              3. Select a claim for your practice
+            </label>
             <DropdownButton
               title={`Select a claim for ${practiceDisplay}`}
               onSelect={navigateClaim}
@@ -154,13 +165,16 @@ export const Search = () => {
                 </Dropdown.Item>
               ))}
             </DropdownButton>
-            <p>Or...</p>
-            <Button variant="outline-secondary" onClick={() => setPractice("")}>
+            <div className="text-center">
+            ...or &nbsp;
+            <Link onClick={() => setPractice("")}>
               Select another practice
-            </Button>
+            </Link>
+            </div>
           </>
         )}
+        </Container>
       </div>
-    </>
+    </div>
   );
 };

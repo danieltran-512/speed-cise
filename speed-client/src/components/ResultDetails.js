@@ -71,16 +71,16 @@ export const ResultDetails = () => {
   }, []);
 
   return (
-    <div>
-      <div className="text-center m-3">
-        <Link to="/" className="text-dark text-decoration-none">
+    <div className="container-fluid min-vh-100 bg-dark text-white">
+      <div className="text-center p-3">
+        <Link to="/" className="text-white text-decoration-none">
           <h1>SPEED</h1>
         </Link>
         <p>Software Practice Empirical Evidence Database</p>
         <hr></hr>
         <h3 className="m-5"> {location.state.data.title}</h3>
       </div>
-      <Container className="d-flex justify-content-center align-items-center border rounded p-4 w-50">
+      <Container className="bg-light text-dark d-flex justify-content-center align-items-center border rounded p-4 w-50">
         <Container>
           <Row>
             <Col>
@@ -148,7 +148,7 @@ export const ResultDetails = () => {
         </Modal.Footer>
       </Modal>
 
-      <div className="text-center m-5">
+      <div className="text-center p-5">
         <Button variant="outline-primary" onClick={() => navigate(-1)}>
           Go back
         </Button>
