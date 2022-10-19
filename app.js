@@ -8,6 +8,8 @@ const { authorize, blacklist } = require("./_helpers/authorize");
 // Accessing the path module
 const path = require("path");
 
+const port = process.env.PORT || 8082;
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({ origin: true, credentials: true }));
@@ -57,5 +59,7 @@ if (process.env.NODE_ENV === "production") {
     res.send("Api running");
   });
 }
+
+app.listen(port, () => console.log(`Server running on port ${port}`));
 
 module.exports = app;

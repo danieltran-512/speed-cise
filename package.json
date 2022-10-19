@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon server.js",
-    "start": "nodemon server.js",
+    "dev": "nodemon app.js",
+    "start": "nodemon app.js",
     "test": "jest",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix speed-client && npm run build --prefix speed-client"
   },
