@@ -10,7 +10,7 @@ const path = require("path");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 
 // API routes TODO
 app.use("/practices", require("./practices/practice.controller"));
@@ -51,6 +51,7 @@ if (process.env.NODE_ENV === "production") {
       path.join(__dirname, "speed-client", "build", "index.html")
     );
   });
+  console.log("if statement reached again");
 } else {
   app.get("/", (req, res) => {
     res.send("Api running");
