@@ -17,7 +17,7 @@ export const Search = () => {
   //retrieve list of practice from database
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_DB_URL}/practices`)
+      .get(`https://cise-speed-2022.herokuapp.com/practices`)
       .then((res) => {
         setPracticeList(res.data);
       })
@@ -41,7 +41,7 @@ export const Search = () => {
   useEffect(() => {
     if (!practice) return;
     axios
-      .get(`${process.env.REACT_APP_DB_URL}/claims/${practice}`)
+      .get(`https://cise-speed-2022.herokuapp.com/claims/${practice}`)
       .then((res) => {
         setClaims(res.data);
       })
@@ -89,90 +89,88 @@ export const Search = () => {
           className=" border rounded p-4 text-left bg-white"
           style={{ width: "40%" }}
         >
-        {error && <p>{error}</p>}
-        {!practice && (
-          <div className="text-center">
-            <DropdownButton
-              variant={practice ? "outline-secondary" : "outline-primary"}
-              title="Select a software engineering practice"
-              onSelect={handleSelect}
-            >
-              {practiceList.map((practice) => (
-                <Dropdown.Item
-                  eventKey={practice.id}
-                  key={practice.title}
-                  name={practice.title}
-                >
-                  {practice.title}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
-          </div>
-        )}
-
-        {practice && (
-          <>
-            <label>
-              1. Select the earliest published year:
-              <select
-                value={earliestYear}
-                onChange={(e) => handleEarliestYearChange(e)}
-              >
-                <option key={`earliestYear`} value={year - 1}>
-                  --
-                </option>
-                {years.map((year, index) => {
-                  return (
-                    <option key={`year${index}`} value={year}>
-                      {year}
-                    </option>
-                  );
-                })}
-              </select>
-            </label>
-            <br></br>
-            <br></br>
-            <label>
-              2. Select the latest published year:
-              <select
-                value={latestYear}
-                onChange={(e) => handleLatestYearChange(e)}
-              >
-                <option key={`latestYear`} value={year + 20}>
-                  --
-                </option>
-                {years.map((year, index) => {
-                  return (
-                    <option key={`year${index}`} value={year}>
-                      {year}
-                    </option>
-                  );
-                })}
-              </select>
-            </label>
-            <br></br>
-            <br></br>
-            <label>
-              3. Select a claim for your practice
-            </label>
-            <DropdownButton
-              title={`Select a claim for ${practiceDisplay}`}
-              onSelect={navigateClaim}
-            >
-              {claims.map((claim) => (
-                <Dropdown.Item eventKey={claim.id} key={claim.id}>
-                  {claim.claim}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
+          {error && <p>{error}</p>}
+          {!practice && (
             <div className="text-center">
-            ...or &nbsp;
-            <Link onClick={() => setPractice("")}>
-              Select another practice
-            </Link>
+              <DropdownButton
+                variant={practice ? "outline-secondary" : "outline-primary"}
+                title="Select a software engineering practice"
+                onSelect={handleSelect}
+              >
+                {practiceList.map((practice) => (
+                  <Dropdown.Item
+                    eventKey={practice.id}
+                    key={practice.title}
+                    name={practice.title}
+                  >
+                    {practice.title}
+                  </Dropdown.Item>
+                ))}
+              </DropdownButton>
             </div>
-          </>
-        )}
+          )}
+
+          {practice && (
+            <>
+              <label>
+                1. Select the earliest published year:
+                <select
+                  value={earliestYear}
+                  onChange={(e) => handleEarliestYearChange(e)}
+                >
+                  <option key={`earliestYear`} value={year - 1}>
+                    --
+                  </option>
+                  {years.map((year, index) => {
+                    return (
+                      <option key={`year${index}`} value={year}>
+                        {year}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
+              <br></br>
+              <br></br>
+              <label>
+                2. Select the latest published year:
+                <select
+                  value={latestYear}
+                  onChange={(e) => handleLatestYearChange(e)}
+                >
+                  <option key={`latestYear`} value={year + 20}>
+                    --
+                  </option>
+                  {years.map((year, index) => {
+                    return (
+                      <option key={`year${index}`} value={year}>
+                        {year}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
+              <br></br>
+              <br></br>
+              <label>3. Select a claim for your practice</label>
+              <DropdownButton
+                title={`Select a claim for ${practiceDisplay}`}
+                onSelect={navigateClaim}
+              >
+                {claims.map((claim) => (
+                  <Dropdown.Item eventKey={claim.id} key={claim.id}>
+                    {claim.claim}
+                  </Dropdown.Item>
+                ))}
+              </DropdownButton>
+              <div className="text-center">
+                ...or &nbsp;
+                <Link onClick={() => setPractice("")}>
+                  Select another practice
+                </Link>
+              </div>
+            </>
+          )}
         </Container>
       </div>
     </div>

@@ -32,7 +32,7 @@ export const Moderate = () => {
     };
     await axios
       .put(
-        `${process.env.REACT_APP_DB_URL}/articles/updateArticleStatus`,
+        `https://cise-speed-2022.herokuapp.com/articles/updateArticleStatus`,
         body,
         {
           headers: { Authorization: AuthString },

@@ -19,7 +19,7 @@ export const AnalystLanding = () => {
     async function fetchWorkDistribution() {
       await axios
         .get(
-          `${process.env.REACT_APP_DB_URL}/articles/getArticlesForAnalystDistribution`,
+          `https://cise-speed-2022.herokuapp.com/articles/getArticlesForAnalystDistribution`,
           {
             headers: { Authorization: AuthString },
           }
@@ -48,7 +48,7 @@ export const AnalystLanding = () => {
     };
     await axios
       .put(
-        `${process.env.REACT_APP_DB_URL}/articles/updateArticleAnalystID`,
+        `https://cise-speed-2022.herokuapp.com/articles/updateArticleAnalystID`,
         body,
         {
           headers: { Authorization: AuthString },

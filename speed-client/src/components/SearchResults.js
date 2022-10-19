@@ -15,7 +15,9 @@ export const SearchResults = () => {
   useEffect(() => {
     //Retrieve the claim details from the database
     axios
-      .get(`${process.env.REACT_APP_DB_URL}/articles/${location.state.claim}`)
+      .get(
+        `https://cise-speed-2022.herokuapp.com/articles/${location.state.claim}`
+      )
       .then((res) => {
         let temp = [];
         res.data.map((i) => {

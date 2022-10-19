@@ -5,27 +5,26 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import { Rating } from 'react-simple-star-rating';
-import Modal from 'react-bootstrap/Modal';
+import { Rating } from "react-simple-star-rating";
+import Modal from "react-bootstrap/Modal";
 
 export const ResultDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   //creating IP state
-  const [ip, setIP] = useState('');
+  const [ip, setIP] = useState("");
 
   //creating function to load ip address from the API
   const getData = async () => {
-    const res = await axios.get('https://geolocation-db.com/json/')
-    setIP(res.data.IPv4)
-  }
+    const res = await axios.get("https://geolocation-db.com/json/");
+    setIP(res.data.IPv4);
+  };
 
-  useEffect( () => {
+  useEffect(() => {
     //passing getData method to the lifecycle method
-    getData()
-  }, [])
-
+    getData();
+  }, []);
 
   //Retrieve rating from the database
   const [rating, setRating] = useState(0);
@@ -43,27 +42,31 @@ export const ResultDetails = () => {
       articleID: location.state.data.id,
       practitionerID: ip,
       score: userRating,
-    }
+    };
 
-    axios.post(`${process.env.REACT_APP_DB_URL}/ratings/addRating`, ratingParams)
-    .then(() => {
-      //Close the dialog
-      handleClose();
+    axios
+      .post(
+        `https://cise-speed-2022.herokuapp.com/ratings/addRating`,
+        ratingParams
+      )
+      .then(() => {
+        //Close the dialog
+        handleClose();
 
-      //Reload the page
-      window.location.reload();
-    }
-    )
-    .catch(err => {
-      console.log(err);
-    }
-    )
-  }
+        //Reload the page
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   //retrieve list of practice from database
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_DB_URL}/ratings/getRatingsForArticle/${location.state.data.id}`)
+      .get(
+        `https://cise-speed-2022.herokuapp.com/ratings/getRatingsForArticle/${location.state.data.id}`
+      )
       .then((res) => {
         setRating(res.data);
       })
@@ -109,19 +112,21 @@ export const ResultDetails = () => {
           <Row>
             <Col>
               <h5>RATINGS</h5>
-              <Rating 
-              showTooltip={true}
-              className="mb-2" initialValue={rating.average} readonly={true} allowFraction={true} size={25}/>
+              <Rating
+                showTooltip={true}
+                className="mb-2"
+                initialValue={rating.average}
+                readonly={true}
+                allowFraction={true}
+                size={25}
+              />
               <p>Rating is based on {rating.count} users</p>
             </Col>
           </Row>
 
-          <Button onClick={handleShow}>
-            Submit a rating
-          </Button>
+          <Button onClick={handleShow}>Submit a rating</Button>
         </Container>
       </Container>
-
 
       <Modal
         show={show}
@@ -136,15 +141,19 @@ export const ResultDetails = () => {
         <Modal.Body>
           On a scale from 1 to 5, how would you rate this article?
           <div className="text-center">
-          <Rating className="mb-2" 
-            initialValue={0} 
-            onClick={(value) => setUserRating(value)}
-            allowFraction={true} size={25}/>
+            <Rating
+              className="mb-2"
+              initialValue={0}
+              onClick={(value) => setUserRating(value)}
+              allowFraction={true}
+              size={25}
+            />
           </div>
         </Modal.Body>
         <Modal.Footer>
-
-          <Button variant="primary" onClick={submitRating}>Submit</Button>
+          <Button variant="primary" onClick={submitRating}>
+            Submit
+          </Button>
         </Modal.Footer>
       </Modal>
 

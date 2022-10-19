@@ -21,7 +21,7 @@ export const ModeratorWorkBacklog = () => {
     async function fetchAssignedWork() {
       await axios
         .get(
-          `${process.env.REACT_APP_DB_URL}/articles/getArticlesForModerator/${user.id}`,
+          `https://cise-speed-2022.herokuapp.com/articles/getArticlesForModerator/${user.id}`,
           {
             headers: { Authorization: AuthString },
           }

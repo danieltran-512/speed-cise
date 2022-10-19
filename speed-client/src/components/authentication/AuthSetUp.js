@@ -3,7 +3,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 
 const axiosapi = axios.create({
-  baseURL: process.env.REACT_APP_DB_URL,
+  baseURL: "https://cise-speed-2022.herokuapp.com",
 });
 
 // JWT Storage in ether session or local (remember me)

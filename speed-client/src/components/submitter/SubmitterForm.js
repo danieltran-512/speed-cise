@@ -39,13 +39,13 @@ export const SubmitterForm = () => {
     submitArticle(body);
   };
 
-  //Populate the practice list from the menu 
+  //Populate the practice list from the menu
   const [practiceList, setPracticeList] = useState([]);
 
   //retrieve list of practice from database
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_DB_URL}/practices`)
+      .get(`https://cise-speed-2022.herokuapp.com/practices`)
       .then((res) => {
         setPracticeList(res.data);
       })
@@ -64,7 +64,7 @@ export const SubmitterForm = () => {
   useEffect(() => {
     if (!practice) return;
     axios
-      .get(`${process.env.REACT_APP_DB_URL}/claims/${practice}`)
+      .get(`https://cise-speed-2022.herokuapp.com/claims/${practice}`)
       .then((res) => {
         setClaims(res.data);
       })
@@ -79,7 +79,7 @@ export const SubmitterForm = () => {
   //d-flex justify-content-center align-items-center
   const submitArticle = async (body) => {
     await axios
-      .post(`${process.env.REACT_APP_DB_URL}/articles/addArticle`, body, {
+      .post(`https://cise-speed-2022.herokuapp.com/articles/addArticle`, body, {
         headers: { Authorization: AuthString },
       })
       .then((res) => {
@@ -90,7 +90,11 @@ export const SubmitterForm = () => {
   };
   return (
     <div className="d-flex justify-content-center align-items-center p-5">
-      <Form style={{ width: "50vw" }} className="border rounded p-5" onSubmit={handleSubmit}>
+      <Form
+        style={{ width: "50vw" }}
+        className="border rounded p-5"
+        onSubmit={handleSubmit}
+      >
         <h1 className="text-center mb-5">SPEED | Submit an Article </h1>
         {error && <h1>{error}</h1>}
         <Form.Group className="mb-3">

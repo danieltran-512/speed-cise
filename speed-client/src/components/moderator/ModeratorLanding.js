@@ -20,7 +20,7 @@ export const ModeratorLanding = () => {
     async function fetchWorkDistribution() {
       await axios
         .get(
-          `${process.env.REACT_APP_DB_URL}/articles/getArticlesForModeratorDistribution`,
+          `https://cise-speed-2022.herokuapp.com/articles/getArticlesForModeratorDistribution`,
           {
             headers: { Authorization: AuthString },
           }
@@ -49,7 +49,7 @@ export const ModeratorLanding = () => {
     };
     await axios
       .put(
-        `${process.env.REACT_APP_DB_URL}/articles/updateArticleModeratorID`,
+        `https://cise-speed-2022.herokuapp.com/articles/updateArticleModeratorID`,
         body,
         {
           headers: { Authorization: AuthString },
