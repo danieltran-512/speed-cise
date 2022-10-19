@@ -39,7 +39,7 @@ export const SubmitterForm = () => {
     submitArticle(body);
   };
 
-  //Populate the practice list from the menu
+  //Populate the practice list from the menu 
   const [practiceList, setPracticeList] = useState([]);
 
   //retrieve list of practice from database
