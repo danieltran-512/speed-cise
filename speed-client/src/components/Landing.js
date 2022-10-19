@@ -42,13 +42,11 @@ export const Landing = () => {
           <Row>
             <Col>
               <Link to={"/search"}>
-                <button className="btn btn-outline-primary btn-block">
+                <button className="btn btn-primary btn-block">
                   Search Article
                 </button>
               </Link>
             </Col>
-          </Row>
-          <Row>
             <Col>
               <Link to={"/submitterform"}>
                 <button className="btn btn-outline-primary btn-block">
@@ -57,13 +55,13 @@ export const Landing = () => {
               </Link>
             </Col>
           </Row>
-          <Row className="mt-5 text-right">
+          {/* <Row className="mt-5 text-right">
             <Col>
               <p>
                 or <a href="/login">Log in</a>
               </p>
             </Col>
-          </Row>
+          </Row> */}
         </Container>
       </div>
     );

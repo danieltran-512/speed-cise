@@ -17,10 +17,6 @@ const tablecolumns = [
     accessor: "publicationYear",
   },
   {
-    Header: "DOI",
-    accessor: "doi",
-  },
-  {
     Header: "Level of Evidence",
     accessor: "evidenceResults",
   },
