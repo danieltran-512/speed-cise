@@ -33,7 +33,7 @@ function logout(req, res, next) {
 // Global error handler
 app.use(errorHandler);
 // Handle errors.
-app.use(function (req, res, next) {
+/*app.use(function (req, res, next) {
   res.status(404);
   res.json({ error: "endpoint-not-found" });
 });
@@ -41,7 +41,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({ error: err });
-});
+});*/
 
 if (process.env.NODE_ENV === "production") {
   console.log("if statement reached");
